@@ -1,0 +1,29 @@
+@import '../../assets/scss/variables.scss';
+
+.color-library {
+  flex: 1;
+  padding: 0 28px;
+  overflow-y: auto;
+
+  &__title {
+    font-size: 18px;
+    line-height: 24px;
+    font-weight: bold;
+    margin: 24px 0 8px;
+  }
+}
+
+.color-library::-webkit-scrollbar-track {
+	-webkit-box-shadow: none;
+	background-color: transparent;
+}
+
+.color-library::-webkit-scrollbar {
+	width: 4px;
+	background-color: transparent;
+}
+
+.color-library::-webkit-scrollbar-thumb {
+	background-color: $grey-50;
+  border-radius: 4px;
+}

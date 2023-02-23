@@ -1,7 +1,8 @@
 @import './assets/scss/variables.scss';
-@import './assets/scss/icons.scss';
 
 body {
   margin: 0;
   background-color: $bg-body;
 }
+
+@import './assets/scss/icons.scss';

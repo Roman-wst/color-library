@@ -1,5 +1,57 @@
 @import '../../assets/scss/variables.scss';
 
 .tabs {
+  font-size: 20px;
+  line-height: 20px;
+  padding: 0 28px;
+  
+  &__list {
+    position: relative;
+    list-style: none;
+    margin: 0;
+    padding: 0;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+  }
 
+  &__list::before {
+    content: '';
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    height: 1px;
+    background-color: $grey-25;
+  }
+
+  &__list-item {
+    flex: 1;
+    position: relative;
+    padding: 14px;
+    color: $grey;
+    text-align: center;
+    cursor: pointer;
+    transition: opacity .3s linear;
+  }
+
+  &__list-item.active {
+    color: $dusk;
+  }
+
+  &__list-item.active::before {
+    content: '';
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    height: 2px;
+    background-color: $dusk;
+  }
+
+  @media (hover: hover) {
+    &__list-item:not(.active):hover {
+      opacity: .7;
+    }
+  }
 }
