@@ -3,6 +3,10 @@
 body {
   margin: 0;
   background-color: $bg-body;
+
+  & > iframe {
+    display: none !important;
+  }
 }
 
 @import './assets/scss/icons.scss';

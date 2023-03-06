@@ -1,8 +1,39 @@
 @import '../../assets/scss/variables.scss';
 
-.color-library-item {
+.color-library__list-item {
+  position: relative;
   display: flex;
   align-items: center;
-  justify-content: space-around;
   padding: 16px 0;
+  border-bottom: 1px solid $grey-25;
+
+  &-drag {
+    color: $grey-75;
+    cursor: pointer;
+  }
+
+  &-pallete {
+    display: flex;
+    align-items: center;
+    padding: 0 12px;
+    flex: 1;
+  }
+
+  &-input {
+    color: $dark-grey;
+    width: 100%;
+    padding: 0;
+    margin: 0;
+    border: 0;
+    outline: 0;
+    background-color: transparent;
+    text-transform: uppercase;
+  }
+
+  &-remove {
+    margin-left: auto;
+    color: $dark-grey;
+  }
+
+
 }

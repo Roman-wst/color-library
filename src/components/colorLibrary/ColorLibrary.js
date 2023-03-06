@@ -10,6 +10,12 @@ const ColorLibrary = () => {
         </div>
         <div className="color-library__list">
           <SketchExample />
+          <SketchExample />
+          <SketchExample />
+          <SketchExample />
+          <SketchExample />
+          <SketchExample />
+          <SketchExample />
         </div>
       </div>
   )
