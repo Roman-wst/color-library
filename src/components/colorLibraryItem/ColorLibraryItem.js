@@ -1,18 +1,8 @@
-// import React from "react";
-// import { CustomPicker } from "react-color";
-// import {
-//   EditableInput,
-//   Hue,
-//   Saturation
-// } from "react-color/lib/components/common";
-
-
 import React from 'react'
 import reactCSS from 'reactcss'
 import { ChromePicker } from 'react-color'
 
 import './colorLibraryItem.scss';
-// import ColorLibrary from '../colorLibrary/ColorLibrary';
 
 class ColorLibraryItem extends React.Component {
   constructor(props) {
@@ -33,7 +23,7 @@ class ColorLibraryItem extends React.Component {
 
   handleChange = (color) => {
     this.setState({ color: color.hex })
-    let input = document.querySelector('.color-library__list-item-input')
+    // let input = document.querySelector('.color-library__list-item-input')
     // input.value = color.hex;
     // let label = (e.target.value !== this.state.color) ? e.target.value : this.state.color;
   };
@@ -75,7 +65,10 @@ class ColorLibraryItem extends React.Component {
           <div style={ styles.swatch } onClick={ this.handleClick }>
             <div style={ styles.color } />
           </div>
-          <label htmlFor={ this.state.color }>
+          <label 
+            htmlFor={ this.state.color }
+            className="color-library__list-item-label"
+          >
             { this.state.color.substring(1) }
             {/* <input
               id={ this.state.color.substring(1) }

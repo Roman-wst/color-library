@@ -19,8 +19,12 @@
     flex: 1;
   }
 
+  &-label, 
   &-input {
     color: $dark-grey;
+  }
+
+  &-input {
     width: 100%;
     padding: 0;
     margin: 0;
@@ -34,6 +38,4 @@
     margin-left: auto;
     color: $dark-grey;
   }
-
-
 }
