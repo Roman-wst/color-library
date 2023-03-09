@@ -9,22 +9,19 @@
 
 import React from 'react'
 import reactCSS from 'reactcss'
-import { SketchPicker } from 'react-color'
+import { ChromePicker } from 'react-color'
 
 import './colorLibraryItem.scss';
+// import ColorLibrary from '../colorLibrary/ColorLibrary';
 
-class SketchExample extends React.Component {
-  // constructor(props) {
-  //     super(props);
-  //     this.state = {
-  //         label: ''
-  //     }
-  // }
-
-  state = {
-    displayColorPicker: false,
-    color: '#99CE43',
-  };
+class ColorLibraryItem extends React.Component {
+  constructor(props) {
+      super(props);
+      this.state = {
+        displayColorPicker: false,
+        color: '#99CE43',
+      };
+  }
 
   handleClick = () => {
     this.setState({ displayColorPicker: !this.state.displayColorPicker })
@@ -34,16 +31,12 @@ class SketchExample extends React.Component {
     this.setState({ displayColorPicker: false })
   };
 
-  handleChange = (color, e) => {
-    const label = (e.target.value !== this.state.color) ? e.target.value : this.state.color;
-    this.setState({ color: color.hex });
+  handleChange = (color) => {
+    this.setState({ color: color.hex })
+    let input = document.querySelector('.color-library__list-item-input')
+    // input.value = color.hex;
     // let label = (e.target.value !== this.state.color) ? e.target.value : this.state.color;
   };
-
-  // onChangeInput = (e) => {
-  //   const label = (e.target.value !== this.state.color) ? e.target.value : this.state.color;
-  //   this.setState({label});
-  // }
 
   render() {
     const styles = reactCSS({
@@ -53,7 +46,6 @@ class SketchExample extends React.Component {
           height: '18px',
           borderRadius: '18px',
           background: `${ this.state.color }`,
-          // background: `rgba(${ this.state.color.r }, ${ this.state.color.g }, ${ this.state.color.b }, ${ this.state.color.a })`,
         },
         swatch: {
           display: 'inline-block',
@@ -83,19 +75,28 @@ class SketchExample extends React.Component {
           <div style={ styles.swatch } onClick={ this.handleClick }>
             <div style={ styles.color } />
           </div>
-          {/* <span>{ this.state.color.substring(1) }</span> */}
-          <input
-            className="color-library__list-item-input"
-            value={ this.state.color.substring(1) }
-            onChange={ this.handleChange }
-          />
-          { this.state.displayColorPicker ? <div style={ styles.popover }>
-            <div style={ styles.cover } onClick={ this.handleClose }/>
-            <SketchPicker
-              color={ this.state.color }
+          <label htmlFor={ this.state.color }>
+            { this.state.color.substring(1) }
+            {/* <input
+              id={ this.state.color.substring(1) }
+              className="color-library__list-item-input"
+              value=""
               onChange={ this.handleChange }
-            />
-          </div> : null }
+            /> */}
+          </label>
+
+          
+          { 
+          this.state.displayColorPicker ? 
+            <div style={ styles.popover } className="color-library__list-item-popover">
+              <div style={ styles.cover } onClick={ this.handleClose }/>
+              <ChromePicker
+                color={ this.state.color }
+                disableAlpha = { true }
+                onChange={ this.handleChange }
+              />
+            </div> : null 
+          }
         </div>
         <div className="color-library__list-item-remove icon-remove"></div>
       </div>
@@ -103,7 +104,7 @@ class SketchExample extends React.Component {
   }
 }
 
-export default SketchExample
+export default ColorLibraryItem
 
 // export const MyPicker = ({ hex, hsl, hsv, onChange }) => {
 //   const styles = {
