@@ -106,7 +106,6 @@ class ColorLibraryItem extends React.Component {
 }
 
 
-
 const ColorLibrary = () => {
 
   const [pickerList, setPickerList] = useState([]);
@@ -115,22 +114,24 @@ const ColorLibrary = () => {
     setPickerList(pickerList.concat(<ColorLibraryItem key={pickerList.length} />));
   };
 
+  // const deleteItem = (id) => {
+  //   this.setState(({data}) => {
+  //     // const index = data.findIndex(elem => elem.id === id);
+  //     // const before = data.slice(0, index);
+  //     // const after = data.slice(index + 1);
+  //     // const newArr = [...before, ...after];
+  //     return {
+  //       data: data.filter(item => item.id !== id)
+  //     }
+  //   })
+  // }
+
   return (
       <div className="color-library">
         <div className="color-library__title">
           Color library
         </div>
         <div className="color-library__list">
-          {/* <DraggableList
-            template={<SketchExample />}
-            list={this.state.list}
-          > */
-          }
-            {/* <ColorLibraryItem />
-            <ColorLibraryItem />
-            <ColorLibraryItem /> */}
-            {/* <CustomPicker  color="#424242" /> */}
-          {/* </DraggableList> */}
           { pickerList }
           <button
             className="color-library__btn"

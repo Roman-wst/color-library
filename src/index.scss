@@ -1,4 +1,4 @@
-@import './assets/scss/variables.scss';
+@import './assets/scss/variables';
 
 body {
   margin: 0;
@@ -9,4 +9,5 @@ body {
   }
 }
 
-@import './assets/scss/icons.scss';
+@import './assets/scss/color-library';
+@import './assets/scss/icons';
