@@ -194,9 +194,9 @@ class App extends React.Component {
   }
 
   removeColor (colorIndex) {
-    // listColors.splice(colorIndex, 1);
     console.log(colorIndex);
-    listColors.splice(colorIndex, 1);
+    // listColors.splice(colorIndex, 1);
+    delete listColors[colorIndex];
     this.setState({listColors: listColors});
   }
 
