@@ -1,0 +1,19 @@
+@import '../../assets/scss/variables.scss';
+
+.sidebar {
+  display: flex;
+  flex-direction: column;
+  position: fixed;
+  width: 100%;
+  padding: 12px 0 0;
+  right: 0;
+  top: 0;
+  bottom: 0;
+  color: $dusk;
+  background-color: $light-grey;
+  overflow: hidden;
+
+  @media screen and (min-width: 768px) {
+    max-width: 360px;
+  }
+}

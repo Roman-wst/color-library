@@ -1,35 +1,30 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
-// import App from './components/app/app';
 import reactCSS from 'reactcss'
 import { ChromePicker } from 'react-color'
-
-// import './colorLibraryItem/colorLibraryItem.scss';
+import _uniqueId from 'lodash/uniqueId';
 
 import './index.scss';
 
-// ReactDOM.render(
-//   <React.StrictMode>
-//     <App />
-//   </React.StrictMode>,
-//   document.getElementById('root')
-// );
-
 let listColors = [];
-listColors.push({index: 1, value: "9FC0EE", done: false});
-listColors.push({index: 2, value: "333333", done: true});
-listColors.push({index: 3, value: "444444", done: true});
+listColors.push({index: 'id-0', value: "9FC0EE"});
 
 class ColorLibrary extends React.Component {
+  constructor(props) {
+    super(props);
+    this.onAddColor = this.onAddColor.bind(this);
+  }
 
-  onAddBtnClick(event) {
-    this.props.addItem('444');
+  onAddColor(event) {
+    event.preventDefault();
+    const newColorValue = '9FC0EE';
+    this.props.addColor({newColorValue});
   }
 
   render () {
-    var items = this.props.items.map((item, index) => {
+    let colors = this.props.colors.map((item, index) => {
       return (
-        <ColorLibraryItem key={index} item={item} index={index} removeItem={this.props.removeItem} />
+        <ColorLibraryItem key={index} item={item} index={index} removeColor={this.props.removeColor} />
       );
     });
     return (
@@ -38,10 +33,10 @@ class ColorLibrary extends React.Component {
           Color library
         </div>
         <div className="color-library__list">
-          {items}
+          {colors}
           <button
             className="color-library__btn"
-            onClick={ this.onAddBtnClick }
+            onClick={ this.onAddColor }
           >
             <i className="icon-add"></i>
             <span>New color</span>
@@ -57,32 +52,41 @@ class ColorLibraryItem extends React.Component {
     super(props);
     this.state = {
       displayColorPicker: false,
-      color: '#e59308',
+      color: '#9FC0EE',
+      listColors: listColors
     };
-    this.onClickClose = this.onClickClose.bind(this);
+    this.onRemoveColor = this.onRemoveColor.bind(this);
   }
 
-  onClickClose() {
-    var index = parseInt(this.props.index);
-    this.props.removeItem(index);
+  onRemoveColor() {
+    let index = parseInt(this.props.index);
+    this.props.removeColor(index);
+    this.setState({
+      listColors: listColors
+    })
   }
 
-  handleClick = () => {
+  handlePickerClick = () => {
     this.setState({ displayColorPicker: !this.state.displayColorPicker })
   };
 
-  handleClose = () => {
+  handlePickerClose = () => {
     this.setState({ displayColorPicker: false })
   };
 
-  handleChange = (color) => {
-    this.setState({ color: color.hex })
+  handlePickerChange = (color) => {
+    let index = parseInt(this.props.index);
+    listColors[index].value = color.hex.substring(1);
+    this.setState({ 
+      color: color.hex,
+      listColors: listColors
+    })
   };
 
   render () {
     const styles = reactCSS({
       'default': {
-        color: {
+        colorPallete: {
           width: '18px',
           height: '18px',
           borderRadius: '18px',
@@ -108,114 +112,108 @@ class ColorLibraryItem extends React.Component {
         },
       },
     });
-    // var todoClass = this.props.item.done ? 
-    //     "done" : "undone";
     return(
-      // <li className="list-group-item ">
-      //   <div className={todoClass}>
-      //     <span className="glyphicon glyphicon-ok icon" aria-hidden="true" ></span>
-      //     {this.props.item.value}
-      //     <button type="button" className="close" onClick={this.onClickClose}>&times;</button>
-      //   </div>
-      // </li>
       <div className="color-library__list-item">
-      <div className="color-library__list-item-drag icon-drag"></div>
-      <div className="color-library__list-item-pallete">
-        <div style={ styles.swatch } onClick={ this.handleClick }>
-          <div style={ styles.color } />
-        </div>
-        <label
-          htmlFor={ this.state.color }
-          className="color-library__list-item-label"
-        >
-          { this.state.color.substring(1) }
-          {/* <input
-            id={ this.state.color.substring(1) }
-            className="color-library__list-item-input"
-            value=""
-            onChange={ this.handleChange }
-          /> */}
-        </label>
-        { 
-        this.state.displayColorPicker ? 
-          <div style={ styles.popover } className="color-library__list-item-popover">
-            <div style={ styles.cover } onClick={ this.handleClose }/>
-            <ChromePicker
-              color={ this.state.color }
-              disableAlpha = { true }
+        <div className="color-library__list-item-drag icon-drag"></div>
+        <div className="color-library__list-item-pallete">
+          <div style={ styles.swatch } onClick={ this.handlePickerClick }>
+            <div style={ styles.colorPallete } />
+          </div>
+          <label
+            htmlFor={ this.state.color }
+            className="color-library__list-item-label"
+          >
+            { this.state.color.substring(1) }
+            {/* <input
+              id={ this.state.color.substring(1) }
+              className="color-library__list-item-input"
+              value=""
               onChange={ this.handleChange }
-            />
-          </div> : null 
-        }
+            /> */}
+          </label>
+          { 
+          this.state.displayColorPicker ? 
+            <div style={ styles.popover } className="color-library__list-item-popover">
+              <div style={ styles.cover } onClick={ this.handlePickerClose }/>
+              <ChromePicker
+                color={ this.state.color }
+                disableAlpha = { true }
+                onChange={ this.handlePickerChange }
+              />
+            </div> : null 
+          }
+        </div>
+        <button
+          className="color-library__list-item-remove icon-remove"
+          onClick={this.onRemoveColor}
+        >
+        </button>
       </div>
-      <button
-        className="color-library__list-item-remove icon-remove"
-        onClick={this.onClickClose}
-      >
-      </button>
-    </div>
-
     );
   }
 }
 
-class TodoForm extends React.Component {
-  constructor(props) {
-    super(props);
-    this.onSubmit = this.onSubmit.bind(this);
-  }
-
-  onSubmit(event) {
-    event.preventDefault();
-    const newItemValue = '9FC0EE';
-    this.props.addItem({newItemValue});
-  }
-
+class Tabs extends React.Component {
   render () {
-    return (
-      <form ref="form" onSubmit={this.onSubmit}>
-        <button type="submit" className="btn btn-default">Add</button> 
-      </form>
-    );   
+    return(
+      <div className="tabs">
+        <ul className="tabs__list">
+          <li className="tabs__list-item">
+            <span className="tabs__list-icon icon-settings"></span>
+          </li>
+          <li className="tabs__list-item active">
+            <span className="tabs__list-icon icon-pallete"></span>
+          </li>
+          <li className="tabs__list-item">
+            <span className="tabs__list-icon icon-history"></span>
+          </li>
+          <li className="tabs__list-item">
+            <span className="tabs__list-icon icon-layers"></span>
+          </li>
+        </ul>
+      </div>
+    );
   }
 }
   
-class TodoHeader extends React.Component {
-  render () {
-    return <h1>Todo list</h1>;
-  }
-}
-  
-class TodoApp extends React.Component {
+class App extends React.Component {
   constructor (props) {
     super(props);
-    this.addItem = this.addItem.bind(this);
-    this.removeItem = this.removeItem.bind(this);
+    this.addColor = this.addColor.bind(this);
+    this.removeColor = this.removeColor.bind(this);
     this.state = {listColors: listColors};
   }
-
-  addItem(color) {
-    listColors.unshift({
-      index: listColors.length + 1, 
-      value: color.newItemValue,
-      done: false
+  
+  addColor (color) {
+    listColors.push({
+      // index: listColors.length + 1, 
+      index: _uniqueId('id-'),
+      value: color.newColorValue
     });
     this.setState({listColors: listColors});
   }
 
-  removeItem(itemIndex) {
-    listColors.splice(itemIndex, 1);
+  removeColor (colorIndex) {
+    // listColors.splice(colorIndex, 1);
+    console.log(colorIndex);
+    listColors.splice(colorIndex, 1);
     this.setState({listColors: listColors});
   }
+
   render() {
     return (
-      <div id="main">
-        <TodoHeader />
-        <ColorLibrary items={this.props.initItems} removeItem={this.removeItem} />
-        <TodoForm addItem={this.addItem} />
+      <div className="app">
+        <div className="sidebar">
+          <Tabs />
+          <ColorLibrary colors={this.props.initColors} removeColor={this.removeColor} addColor={this.addColor} />
+        </div>
       </div>
     );
   }
 }
 
-ReactDOM.render(<TodoApp initItems={listColors}/>, document.getElementById('app'));
+ReactDOM.render(
+  <React.StrictMode>
+    <App initColors={listColors}/>
+  </React.StrictMode>, document.getElementById('app')
+);

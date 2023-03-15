@@ -9,5 +9,11 @@ body {
   }
 }
 
+.app {
+  position: relative;
+}
+
+@import './assets/scss/sidebar';
+@import './assets/scss/tabs';
 @import './assets/scss/color-library';
 @import './assets/scss/icons';
