@@ -7,7 +7,12 @@ import _uniqueId from 'lodash/uniqueId';
 import './index.scss';
 
 let listColors = [];
-listColors.push({index: 'id-0', value: "9FC0EE"});
+listColors.push({index: 'id-00', value: "2F7FEF", label: "", clicked: false});
+listColors.push({index: 'id-01', value: "99CE43", label: "", clicked: false});
+listColors.push({index: 'id-02', value: "F8AB4B", label: "", clicked: false});
+listColors.push({index: 'id-03', value: "EA5E5E", label: "", clicked: false});
+listColors.push({index: 'id-04', value: "EB60BC", label: "", clicked: false});
+listColors.push({index: 'id-05', value: "AA5EEA", label: "Violet", clicked: true});
 
 class ColorLibrary extends React.Component {
   constructor(props) {
@@ -17,7 +22,7 @@ class ColorLibrary extends React.Component {
 
   onAddColor(event) {
     event.preventDefault();
-    const newColorValue = '9FC0EE';
+    const newColorValue = '000000';
     this.props.addColor({newColorValue});
   }
 
@@ -52,7 +57,7 @@ class ColorLibraryItem extends React.Component {
     super(props);
     this.state = {
       displayColorPicker: false,
-      color: '#9FC0EE',
+      color: `#${listColors[parseInt(this.props.index)].value}`,
       listColors: listColors
     };
     this.onRemoveColor = this.onRemoveColor.bind(this);
@@ -81,6 +86,19 @@ class ColorLibraryItem extends React.Component {
       color: color.hex,
       listColors: listColors
     })
+  };
+
+  handleInputChange = (e) => {
+    // let valueInput = e.target.value;
+    // console.log(e.target.name, valueInput);
+    // this.setState({
+    //   [e.target.name]: e.target.value
+    // });
+    this.props.item.label = e.target.value;
+  };
+
+  handleInputClick = (e) => {
+    
   };
 
   render () {
@@ -112,25 +130,37 @@ class ColorLibraryItem extends React.Component {
         },
       },
     });
+
+
+    let classListItem = "color-library__list-item";
+
+    // let label = this.props.item.label ? this.props.item.label : "";
+
+    if (this.props.item.clicked) {
+      classListItem += " clicked";
+    }
+
     return(
-      <div className="color-library__list-item">
+      <div className={classListItem}>
         <div className="color-library__list-item-drag icon-drag"></div>
         <div className="color-library__list-item-pallete">
           <div style={ styles.swatch } onClick={ this.handlePickerClick }>
             <div style={ styles.colorPallete } />
           </div>
-          <label
-            htmlFor={ this.state.color }
-            className="color-library__list-item-label"
-          >
-            { this.state.color.substring(1) }
-            {/* <input
-              id={ this.state.color.substring(1) }
-              className="color-library__list-item-input"
-              value=""
-              onChange={ this.handleChange }
-            /> */}
-          </label>
+          <div className="color-library__list-item-text">
+            <span
+              className="color-library__list-item-label"
+            >
+              { this.state.color.substring(1) }
+            </span>
+            <input
+                name={ 'name-' + this.state.color.substring(1) }
+                className="color-library__list-item-input"
+                value={ this.props.item.label }
+                onChange={ this.handleInputChange }
+                onClick={ this.handleInputClick }
+            />
+          </div>
           { 
           this.state.displayColorPicker ? 
             <div style={ styles.popover } className="color-library__list-item-popover">
@@ -188,15 +218,17 @@ class App extends React.Component {
     listColors.push({
       // index: listColors.length + 1, 
       index: _uniqueId('id-'),
-      value: color.newColorValue
+      value: color.newColorValue,
+      label: '',
+      clicked: false
     });
     this.setState({listColors: listColors});
   }
 
   removeColor (colorIndex) {
-    console.log(colorIndex);
     // listColors.splice(colorIndex, 1);
     delete listColors[colorIndex];
+    // .splice(colorIndex, 1);
     this.setState({listColors: listColors});
   }
 
