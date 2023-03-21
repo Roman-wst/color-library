@@ -58,7 +58,9 @@ class ColorLibraryItem extends React.Component {
     this.state = {
       displayColorPicker: false,
       color: `#${listColors[parseInt(this.props.index)].value}`,
-      listColors: listColors
+      listColors: listColors,
+      inputLabel: listColors[parseInt(this.props.index)].label,
+      clicked: listColors[parseInt(this.props.index)].clicked,
     };
     this.onRemoveColor = this.onRemoveColor.bind(this);
   }
@@ -94,11 +96,44 @@ class ColorLibraryItem extends React.Component {
     // this.setState({
     //   [e.target.name]: e.target.value
     // });
-    this.props.item.label = e.target.value;
+    // this.props.item.label = e.target.value;
+
+    let index = parseInt(this.props.index);
+    listColors[index].label = e.target.value;
+    if (e.target.value === "") {
+      listColors[index].clicked = false;
+      this.setState({
+        clicked: false
+      })
+    } else {
+      listColors[index].clicked = true;
+      this.setState({
+        clicked: true
+      }) 
+    }
+    this.setState({ 
+      inputLabel: e.target.value,
+      listColors: listColors
+    })
   };
 
   handleInputClick = (e) => {
-    
+    let index = parseInt(this.props.index);
+    if (e.target.value !== "" && listColors[index].clicked === false) {
+      listColors[index].clicked = !listColors[index].clicked;
+      this.setState({
+        clicked: !listColors[index].clicked
+      })
+    }
+    // } else if (e.target.value === "") {
+    //   listColors[index].clicked = false;
+    //   this.setState({
+    //     clicked: false
+    //   })
+    // }
+    this.setState({
+      listColors: listColors
+    })
   };
 
   render () {
@@ -117,7 +152,7 @@ class ColorLibraryItem extends React.Component {
         },
         popover: {
           position: 'absolute',
-          zIndex: '2',
+          zIndex: '20',
           top: 'calc(100% - 8px)',
           left: '30px'
         },
@@ -131,10 +166,7 @@ class ColorLibraryItem extends React.Component {
       },
     });
 
-
     let classListItem = "color-library__list-item";
-
-    // let label = this.props.item.label ? this.props.item.label : "";
 
     if (this.props.item.clicked) {
       classListItem += " clicked";
@@ -157,6 +189,7 @@ class ColorLibraryItem extends React.Component {
                 name={ 'name-' + this.state.color.substring(1) }
                 className="color-library__list-item-input"
                 value={ this.props.item.label }
+                // value=""
                 onChange={ this.handleInputChange }
                 onClick={ this.handleInputClick }
             />

@@ -52,6 +52,7 @@
 
   &__list-item-text {
     position: relative;
+    flex: 1;
   }
   
   &__list-item-label {
@@ -76,9 +77,11 @@
     text-transform: uppercase;
     z-index: 10;
     opacity: 0;
+    cursor: default;
   }
 
-  .clicked &__list-item-input {
+  .clicked &__list-item-input,
+  &__list-item-input:focus {
     opacity: 1;
     background-color: $light-grey;
   }
