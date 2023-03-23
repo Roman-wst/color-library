@@ -27,18 +27,20 @@ class ColorLibrary extends React.Component {
   }
 
   render () {
-    let colors = this.props.colors.map((item, index) => {
-      return (
-        <ColorLibraryItem key={index} item={item} index={index} removeColor={this.props.removeColor} />
-      );
-    });
     return (
       <div className="color-library">
         <div className="color-library__title">
           Color library
         </div>
         <div className="color-library__list">
-          {colors}
+          {/* {colors} */}
+          {
+            this.props.colors.map((item, index) => {
+              return (
+                <ColorLibraryItem key={index} item={item} index={index} removeColor={this.props.removeColor} />
+              );
+            })
+          }
           <button
             className="color-library__btn"
             onClick={ this.onAddColor }
@@ -58,7 +60,6 @@ class ColorLibraryItem extends React.Component {
     this.state = {
       displayColorPicker: false,
       color: `#${listColors[parseInt(this.props.index)].value}`,
-      listColors: listColors,
       inputLabel: listColors[parseInt(this.props.index)].label,
       clicked: listColors[parseInt(this.props.index)].clicked,
     };
@@ -68,9 +69,6 @@ class ColorLibraryItem extends React.Component {
   onRemoveColor() {
     let index = parseInt(this.props.index);
     this.props.removeColor(index);
-    this.setState({
-      listColors: listColors
-    })
   }
 
   handlePickerClick = () => {
@@ -84,20 +82,9 @@ class ColorLibraryItem extends React.Component {
   handlePickerChange = (color) => {
     let index = parseInt(this.props.index);
     listColors[index].value = color.hex.substring(1);
-    this.setState({ 
-      color: color.hex,
-      listColors: listColors
-    })
   };
 
   handleInputChange = (e) => {
-    // let valueInput = e.target.value;
-    // console.log(e.target.name, valueInput);
-    // this.setState({
-    //   [e.target.name]: e.target.value
-    // });
-    // this.props.item.label = e.target.value;
-
     let index = parseInt(this.props.index);
     listColors[index].label = e.target.value;
     if (e.target.value === "") {
@@ -112,8 +99,7 @@ class ColorLibraryItem extends React.Component {
       }) 
     }
     this.setState({ 
-      inputLabel: e.target.value,
-      listColors: listColors
+      inputLabel: e.target.value
     })
   };
 
@@ -125,15 +111,6 @@ class ColorLibraryItem extends React.Component {
         clicked: !listColors[index].clicked
       })
     }
-    // } else if (e.target.value === "") {
-    //   listColors[index].clicked = false;
-    //   this.setState({
-    //     clicked: false
-    //   })
-    // }
-    this.setState({
-      listColors: listColors
-    })
   };
 
   render () {
