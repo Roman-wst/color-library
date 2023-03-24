@@ -98,7 +98,7 @@ class ColorLibraryItem extends React.Component {
         clicked: true
       }) 
     }
-    this.setState({ 
+    this.setState({
       inputLabel: e.target.value
     })
   };
